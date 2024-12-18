@@ -85,6 +85,22 @@ st.markdown(
 
  
 st.title("📈 XGBOOST Prediction App")
+# 创建两个列
+col1, col2 = st.columns(2)
+
+# 在第一个列中添加项目概述
+with col1:
+    st.markdown("""
+    ## Project Overview
+    Our project focuses on analyzing stock data from September 2023 to September 2024, selecting stocks that have reached the daily limit up, and predicting the rise or fall of these stocks for the next day based on the daily information.
+    """)
+
+# 在第二个列中添加预测准确率
+with col2:
+    st.markdown("""
+    ## Prediction Accuracy
+    The accuracy rate for predicting significant increases is 75%! You can see the prediction results and the impact of the samples on the final outcome by adjusting the various parameters of our model in the sidebar.
+    """)
 
 
 st.sidebar.subheader("⚙️ Input Features")
@@ -92,7 +108,7 @@ is_one = st.sidebar.slider("Is One", min_value=0, max_value=1, value=0)  # 二�
 consecutive_limit_up = st.sidebar.slider("Consecutive Limit Up", min_value=0, max_value=10, value=0)
 i_change_ratio = st.sidebar.slider("I Change Ratio", min_value=-1.0, max_value=1.0, value=0.0, step=0.01)
 billboard_weight = st.sidebar.slider("Billboard Weight", min_value=-50.0, max_value=50.0, value=0.0, step=0.1)
-large_alpha = st.sidebar.slider("Large Alpha", min_value=0.0, max_value=10.0, value=1.0, step=0.1)
+large_alpha = st.sidebar.slider("Large Alpha", min_value=-50.0, max_value=50.0, value=1.0, step=0.1)
 circulated_market_value_discrete = st.sidebar.slider("Circulated Market Value Discrete", min_value=0, max_value=3, step=1)
 turnover = st.sidebar.slider("Turnover", min_value=0.0, max_value=100.0, value=20.0, step=0.1)
 class_i = st.sidebar.selectbox("Class i", options=list(range(5)))
@@ -124,11 +140,34 @@ prediction_texts = {
     3: "小涨",
     4: "大涨"
 }
-predicted_value = prediction_texts.get(prediction[0], "未知") 
+
+# 根据预测结果设置背景颜色
+color_map = {
+    0: "#006400",  # 深绿
+    1: "#90EE90",  # 浅绿
+    2: "#FFFFFF",  # 白色
+    3: "#FFCCCB",  # 浅红
+    4: "#8B0000"   # 深红
+}
+
+predicted_value = prediction_texts.get(prediction[0], "未知")
+background_color = color_map.get(prediction[0], "#FFFFFF")  # 默认白色
+text_color = "#000000"  # 默认黑色，您可以根据需要自定义
+
+
+
+    
+if prediction[0] == 2:
+    text_color = "#000000"
+else:
+    text_color = "#FFFFFF"
+
 st.markdown(
-    f"<div class='prediction-box'>预测结果: {predicted_value}</div>",
+    f"<div class='prediction-box' style='background-color: {background_color}; color: {text_color};'>"
+    f"预测结果: {predicted_value}</div>",
     unsafe_allow_html=True,
 )
+
 
 
     # 计算 SHAP 值
@@ -177,15 +216,26 @@ plot_option = st.selectbox(
     ["Waterfall Plot", "Bar Plot", "Summary Plot", "Heatmap Plot"]
 )
 
-# 根据选择显示对应的图
+# 根据选择显示对应的图以及解释
 if plot_option == "Waterfall Plot":
-    st.image(buf1, caption="Waterfall Plot", use_column_width=True)
+    st.write("### Waterfall Plot")
+    st.write("The Waterfall Plot visualizes the contribution of each feature to the model output for an individual prediction.")
+    st.image(buf1, caption="Waterfall Plot", use_container_width=True)
+
 elif plot_option == "Bar Plot":
-    st.image(buf2, caption="Bar Plot", use_column_width=True)
+    st.write("### Bar Plot")
+    st.write("The Bar Plot shows the average absolute SHAP values for each feature across all predictions, allowing for a comparison of feature importance.")
+    st.image(buf2, caption="Bar Plot", use_container_width=True)
+
 elif plot_option == "Summary Plot":
-    st.image(buf3, caption="Summary Plot", use_column_width=True)
+    st.write("### Summary Plot")
+    st.write("The Summary Plot combines feature importance with feature effects, showing the distribution of SHAP values for each feature.")
+    st.image(buf3, caption="Summary Plot", use_container_width=True)
+
 elif plot_option == "Heatmap Plot":
-    st.image(buf4, caption="Heatmap Plot", use_column_width=True)
+    st.write("### Heatmap Plot")
+    st.write("The Heatmap Plot displays the SHAP values in a matrix format, allowing for a visual representation of feature interactions and their impact on the predictions.")
+    st.image(buf4, caption="Heatmap Plot", use_container_width=True)
 
 st.markdown("---")
 st.info("Adjust input features to observe how predictions change.")
@@ -200,7 +250,7 @@ st.markdown(
     """
     | Feature Name                 | Description                                             |
     |------------------------------|---------------------------------------------------------|
-    | **Is One**                   | Binary feature indicating if high price = Loe price     |
+    | **Is One**                   | Binary feature indicating if high price = Low price     |
     | **Consecutive Limit Up**     | Number of consecutive upward limits.                    |
     | **I Change Ratio**           | Change ratio of a specific metric, ranging [-1, 1].     |
     | **Billboard Weight**         | Weight or importance of a specific billboard.           |
@@ -208,8 +258,16 @@ st.markdown(
     | **Circulated Market Value**  | Discrete value indicating market value classification.  |
     | **Turnover**                 | Turnover of a specific stock, ranging [0, 100].         |
     | **Class_i**                  | Class label of the prediction, ranging [0, 4].          |
-    """,
-    unsafe_allow_html=True
+    """
 )
- 
 
+# Adding a separate markdown for the price change classification
+st.markdown(
+    """
+    ### Price Change Classification
+    Classification of price changes:
+    - **-0.02 <= value <0.02**: Neutral
+    - **0.02 <= value <0.06**: Small Increase
+    - **value >=0.06**: Large Increase
+    """
+)
