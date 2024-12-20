@@ -24,7 +24,7 @@ sample_x = X.sample(frac = 0.1,random_state=42)
 # 获取当前文件的目录
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # 组合当前目录与模型文件名，生成模型的完整路径
-model_path = os.path.join(current_dir, 'xgboost_model.pkl')
+model_path = os.path.join(current_dir, 'catboost_model.pkl')
 print(model_path)
 # 打开并加载模型
 with open(model_path, 'rb') as file:
@@ -32,7 +32,7 @@ with open(model_path, 'rb') as file:
  
  
 st.set_page_config(
-    page_title="XGBOOST Prediction App",
+    page_title="CATBOOST Prediction App",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -84,7 +84,7 @@ st.markdown(
 )
 
  
-st.title("📈 XGBOOST Prediction App")
+st.title("📈 CATBOOST Prediction App")
 # 创建两个列
 col1, col2 = st.columns(2)
 
@@ -99,7 +99,7 @@ with col1:
 with col2:
     st.markdown("""
     ## Prediction Accuracy
-    The accuracy rate for predicting significant increases is 75%! You can see the prediction results and the impact of the samples on the final outcome by adjusting the various parameters of our model in the sidebar.
+    The accuracy rate for predicting significant increases to 75%! You can see the prediction results and the impact of the samples on the final outcome by adjusting the various parameters of our model in the sidebar.
     """)
 
 
@@ -149,6 +149,8 @@ color_map = {
     3: "#FFCCCB",  # 浅红
     4: "#8B0000"   # 深红
 }
+prediction = prediction[0]
+
 
 predicted_value = prediction_texts.get(prediction[0], "未知")
 background_color = color_map.get(prediction[0], "#FFFFFF")  # 默认白色
