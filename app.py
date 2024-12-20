@@ -1,4 +1,3 @@
-import streamlit_shap as st_shap  # 导入 Streamlit-SHAP 库，用于可视化 SHAP 值
 import streamlit as st  # type: ignore # 导入 Streamlit 库，用于创建 Web 应用
 import numpy as np  # 导入 Numpy 库，用于数值计算
 import pandas as pd  # 导入 Pandas 库，用于数据处理
