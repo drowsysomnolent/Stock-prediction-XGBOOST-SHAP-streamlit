@@ -7,7 +7,7 @@
 ## 功能亮点
 - **机器学习模型**：运用多种机器学习模型预测股票涨跌，其中XGBoost模型在预测大幅上涨时的准确率高达75%。
 - **SHAP模型解释**：通过SHAP模型对XGBoost进行解释，以可视化方式展示影响预测的关键因素。
-- **Streamlit部署**：项目已部署于Streamlit服务器，欢迎访问[点我]([https://xgboost-leixydyapprszn7cwnmxhdb.streamlit.app/](https://stock-prediction-xgboost-shap-app-kuucy9ewddzakwidxds35z.streamlit.app/))。
+- **Streamlit部署**：项目已部署于Streamlit服务器，欢迎访问[点我]([https://xgboost-leixydyapprszn7cwnmxhdb.streamlit.app/](https://stock-prediction-xgboost-shap-app-kuucy9ewddzakwidxds35z.streamlit.app/)。
 
 ## 技术栈
 - **编程语言**：Python
