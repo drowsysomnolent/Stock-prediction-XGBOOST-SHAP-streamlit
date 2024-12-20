@@ -5,4 +5,4 @@ plotly==5.19.0
 shap==0.45.0
 streamlit==1.41.1
 scikit-learn==1.6.0
-catboost == 1.2.7 
+xgboost == 2.1.3

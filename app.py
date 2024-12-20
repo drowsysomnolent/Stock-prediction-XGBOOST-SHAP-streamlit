@@ -23,7 +23,7 @@ sample_x = X.sample(frac = 0.1,random_state=42)
 # 获取当前文件的目录
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # 组合当前目录与模型文件名，生成模型的完整路径
-model_path = os.path.join(current_dir, 'catboost_model.pkl')
+model_path = os.path.join(current_dir, 'xgboost_model.pkl')
 print(model_path)
 # 打开并加载模型
 with open(model_path, 'rb') as file:
@@ -31,7 +31,7 @@ with open(model_path, 'rb') as file:
  
  
 st.set_page_config(
-    page_title="CATBOOST Prediction App",
+    page_title="XGBBOOST Prediction App",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -148,7 +148,7 @@ color_map = {
     3: "#FFCCCB",  # 浅红
     4: "#8B0000"   # 深红
 }
-prediction = prediction[0]
+
 
 
 predicted_value = prediction_texts.get(prediction[0], "未知")
