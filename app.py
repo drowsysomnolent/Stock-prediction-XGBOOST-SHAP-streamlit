@@ -83,7 +83,7 @@ st.markdown(
 )
 
  
-st.title("📈 CATBOOST Prediction App")
+st.title("📈 XGBOOST Prediction App")
 # 创建两个列
 col1, col2 = st.columns(2)
 
